@@ -3,5 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!-- springmvc入口-控制中心 -->
+    <servlet>
+        <servlet-name>console</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <!-- 默认会找WEB-INF下的/[servlet名称]-servlet.xml -->
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvc-console.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>console</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
 
 </web-app>

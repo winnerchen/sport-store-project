@@ -208,10 +208,10 @@
         </dependency>
         <!-- Zookeeper 用于分布式服务管理 end -->
         <!-- Active MQ 开始 -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.apache.activemq</groupId>
