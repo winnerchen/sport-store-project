@@ -289,15 +289,9 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jsp-api</artifactId>
             <version>7.0.47</version>
-            <!-- 发布时依旧会使用第三方web服务器中提供的jar包，而不会使用本jar包 -->
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-
-
-
-
     <!-- jdk1.7 -->
     <build>
         <resources>
@@ -308,18 +302,7 @@
                 </includes>
             </resource>
         </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
+        
     </build>
 
 

@@ -32,4 +32,6 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
+    <import resource="classpath:dubbo-consumer.xml"/>
+
 </beans>

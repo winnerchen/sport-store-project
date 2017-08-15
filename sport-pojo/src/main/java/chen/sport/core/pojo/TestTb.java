@@ -1,5 +1,6 @@
 package chen.sport.core.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @Date: Created in 10:55 2017/8/13
  * @Modified by:
  */
-public class TestTb {
+public class TestTb implements Serializable {
     private Integer id;
     private String name;
     private Date birthday;
