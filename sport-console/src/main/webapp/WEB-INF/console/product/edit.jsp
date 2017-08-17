@@ -90,7 +90,7 @@ function uploadPic(){
 </head>
 <body>
 <div class="box-positon">
-	<div class="rpos">当前位置: 商品管理 - 添加</div>
+	<div class="rpos">当前位置: 商品管理 - 修改</div>
 	<form class="ropt">
 		<input type="submit" onclick="this.form.action='v_list.do';" value="返回列表" class="return-button"/>
 	</form>
@@ -125,7 +125,7 @@ function uploadPic(){
 					<td width="20%" class="pn-flabel pn-flabel-h">
 						<span class="pn-frequired">*</span>
 						商品名称:</td><td width="80%" class="pn-fcontent">
-						<input type="text" class="required" name="name" maxlength="100" size="100"/>
+						<input type="text" class="required" name="name" maxlength="100" size="100" value="${product.name}"/>
 					</td>
 				</tr>
 				<tr>
@@ -142,18 +142,21 @@ function uploadPic(){
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h">
 						商品毛重:</td><td width="80%" class="pn-fcontent">
-						<input type="text" value="0.6" class="required" name="weight" maxlength="10"/>KG
+						<input type="text" value="${product.weight}" class="required" name="weight" maxlength="10"/>KG
 					</td>
 				</tr>
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h">
 						<span class="pn-frequired">*</span>
 						颜色:</td><td width="80%" class="pn-fcontent">
-					<c:forEach items="${colors}" var="color">
-						<input type="checkbox" value="${color.id}" name="colors"/>${color.name}
-					</c:forEach>
-
-				</td>
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+							<input type="checkbox" value="9" name="colors"/>西瓜红
+					</td>
 				</tr>
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h">

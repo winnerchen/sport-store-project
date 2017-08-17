@@ -5,6 +5,10 @@
 <head>
 <title>babasport-add</title>
 </head>
+
+<script !src="">
+
+</script>
 <body>
 <div class="box-positon">
 	<div class="rpos">当前位置: 品牌管理 - 添加</div>
@@ -36,13 +40,13 @@
 					<td width="20%" class="pn-flabel pn-flabel-h"></td>
 						<td width="80%" class="pn-fcontent">
 						<img width="100" height="100" id="allUrl"/>
-						<input type="file" />
+						<input type="file" name="mpfs" multiple="multiple" onchange="uploadPic()"/>
 					</td>
 				</tr>
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h">
 						品牌描述:</td><td width="80%" class="pn-fcontent">
-						<input type="text" class="required" name="description" maxlength="80"  size="60"/>
+						<input type="text" class="required" name="description" maxlength="80"  size="60" />
 					</td>
 				</tr>
 				<tr>

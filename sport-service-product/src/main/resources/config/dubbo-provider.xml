@@ -30,6 +30,9 @@
 
     <dubbo:service interface="chen.sport.service.BrandService"
                    ref="brandService" />
+    <dubbo:service interface="chen.sport.service.ProductService"
+                   ref="productService" />
+
 
 
 
