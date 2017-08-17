@@ -12,4 +12,8 @@ import java.util.List;
  */
 public interface BrandMapper {
     List<Brand> findByExample(Brand brand);
+
+    Brand findById(Long id);
+
+    void updateById(Brand brand);
 }

@@ -1,6 +1,7 @@
 package chen.sport.service;
 
 import chen.sport.core.pojo.Brand;
+import chen.sport.core.tools.PageHelper;
 
 import java.util.List;
 
@@ -16,5 +17,9 @@ public interface BrandService {
      * @param brand
      * @return 品牌结果集合
      */
-    List<Brand> findByExample(Brand brand);
+     PageHelper.Page findByExample(Brand brand, Integer pageNum, Integer pageSize);
+
+    Brand findById(Long id);
+
+    void updateById(Brand brand);
 }
