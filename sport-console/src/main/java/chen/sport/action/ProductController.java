@@ -1,6 +1,8 @@
 package chen.sport.action;
 
 import chen.sport.core.pojo.Product;
+import chen.sport.core.tools.Constants;
+import chen.sport.core.tools.FastDFSTool;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,12 +31,27 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // 商品
+
+    /**
+     * 通用跳转页面
+     * @param pageName
+     * @return
+     */
     @RequestMapping(value = "console/product/{pageName}.do")
     public String consoleProductShow(@PathVariable(value = "pageName") String pageName) {
         return "/product/" + pageName;
     }
 
+    /**
+     * 商品分页条件查询
+     * @param model
+     * @param name
+     * @param brandId
+     * @param isShow
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @RequestMapping(value = "console/product/list.do")
     public String consoleProductShowList(Model model, String name, Long brandId, Integer isShow,
                                          Integer pageNum, Integer pageSize) {
@@ -75,6 +99,12 @@ public class ProductController {
         return "/product/list";
     }
 
+    /**
+     * 跳转到商品编辑页面
+     * @param productId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "console/product/showEdit.do")
     public String consoleProductShowEdit(Long productId, Model model) {
         System.out.println(productId);
@@ -83,9 +113,31 @@ public class ProductController {
         return "/product/edit";
     }
 
+    /**
+     * 跳转到商品添加页面
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "console/product/toAdd.do")
     public String consoleProductToAdd(Model model) {
         model.addAttribute("colors", productService.findEnableColors());
         return "/product/add";
     }
+
+    /**
+     * 执行商品添加
+     * @param model
+     * @param product
+     * @return
+     */
+    @RequestMapping(value = "console/product/doAdd.do")
+    public String consoleProductDoAdd(Model model,Product product) {
+        productService.add(product);
+        return "redirect:/console/product/list.do";
+    }
+
+
+
+
+
 }

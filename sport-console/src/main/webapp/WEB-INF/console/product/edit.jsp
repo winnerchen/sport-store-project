@@ -92,7 +92,7 @@ function uploadPic(){
 <div class="box-positon">
 	<div class="rpos">当前位置: 商品管理 - 修改</div>
 	<form class="ropt">
-		<input type="submit" onclick="this.form.action='v_list.do';" value="返回列表" class="return-button"/>
+		<input type="submit" onclick="this.form.action='list.do';" value="返回列表" class="return-button"/>
 	</form>
 	<div class="clear"></div>
 </div>

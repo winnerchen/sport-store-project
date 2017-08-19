@@ -37,4 +37,6 @@ public interface ProductService {
      * @return
      */
     List<Color> findEnableColors();
+
+    void add(Product product);
 }

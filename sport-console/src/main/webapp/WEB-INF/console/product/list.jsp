@@ -74,7 +74,11 @@
                     <td>${product.id}
                     </td>
                     <td align="center">${product.name}</td>
-                    <td align="center"><img width="50" height="50" src="${product.imgUrl}"/></td>
+                    <td align="center">
+                        <c:forTokens items="${product.imgUrl}" delims="," var="imgurl" begin="0" end="0">
+                        <img width="50" height="50" src="${imgurl}" />
+                        </c:forTokens>
+                    </td>
                     <td align="center">${product.isNew==1?"是":"否"}</td>
                     <td align="center">${product.isHot==1?"是":"否"}</td>
                     <td align="center">${product.isCommend==1?"是":"否"}</td>
