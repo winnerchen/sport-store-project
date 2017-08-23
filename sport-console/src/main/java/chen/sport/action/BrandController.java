@@ -1,7 +1,6 @@
 package chen.sport.action;
 
 import chen.sport.core.pojo.Brand;
-import chen.sport.core.tools.Encoding;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 /**
  * @Author: Yiheng Chen

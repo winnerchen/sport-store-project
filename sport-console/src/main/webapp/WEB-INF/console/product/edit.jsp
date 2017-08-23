@@ -48,7 +48,7 @@ $(function(){
 					//指定上传文件参数名称
 					filePostName  : "uploadFile",
 					//指定上传文件请求的url。
-					uploadJson : '/upload/uploadFck.do',
+					uploadJson : 'uploadFck.do',
 					//上传类型，分别为image、flash、media、file
 					dir : "image"//,
 // 					width : '1000px',
@@ -64,7 +64,7 @@ $(function(){
 function uploadPic(){
 	//上传图片 异步的  	Jquery.form.js
 	var options = {
-			url : "/upload/uploadPics.do",
+			url : "uploadPics.do",
 			type : "post",
 			dataType : "json",
 			success : function(data){
@@ -103,7 +103,7 @@ function uploadPic(){
 <a href="javascript:void(0);" ref="#tab_4" title="包装清单" class="nor">包装清单</a>
 </span></h2>
 <div class="body-box" style="float:right">
-	<form id="jvForm" action="add.do" method="post" enctype="multipart/form-data">
+	<form id="jvForm" action="doEdit.do" method="post" enctype="multipart/form-data">
 		<table cellspacing="1" cellpadding="2" width="100%" border="0" class="pn-ftable">
 			<tbody id="tab_1">
 				<tr>
@@ -126,6 +126,8 @@ function uploadPic(){
 						<span class="pn-frequired">*</span>
 						商品名称:</td><td width="80%" class="pn-fcontent">
 						<input type="text" class="required" name="name" maxlength="100" size="100" value="${product.name}"/>
+						<input name="id" type="hidden" value="${product.id}"/>
+						<input name="isShow" type="hidden" value="${product.isShow}"/>
 					</td>
 				</tr>
 				<tr>
@@ -190,7 +192,7 @@ function uploadPic(){
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h"></td>
 						<td width="80%" class="pn-fcontent">
-						<input type="file" onchange="uploadPic()" name="pics" multiple="multiple"/>
+						<input type="file" onchange="uploadPic()" name="mpfs" multiple="multiple"/>
 					</td>
 				</tr>
 			</tbody>

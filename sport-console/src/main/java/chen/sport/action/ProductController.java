@@ -5,6 +5,7 @@ import chen.sport.core.tools.Constants;
 import chen.sport.core.tools.FastDFSTool;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.ProductService;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,6 +134,28 @@ public class ProductController {
     @RequestMapping(value = "console/product/doAdd.do")
     public String consoleProductDoAdd(Model model,Product product) {
         productService.add(product);
+        return "redirect:/console/product/list.do";
+    }
+    @RequestMapping(value = "console/product/doEdit.do")
+    public String consoleProductDoEdit(Model model,Product product) throws IOException,
+            SolrServerException {
+        productService.update(product,String.valueOf(product.getId()));
+        return "redirect:/console/product/list.do";
+    }
+
+    @RequestMapping(value = "console/product/isShow")
+    public String consoleProductDoIsShow(String ids,Integer isShow) {
+        Product product = new Product();
+
+        product.setIsShow(isShow);
+        try {
+            productService.update(product, ids);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:/console/product/list.do";
     }
 

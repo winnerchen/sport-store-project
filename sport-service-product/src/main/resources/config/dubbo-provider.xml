@@ -32,18 +32,9 @@
                    ref="brandService" />
     <dubbo:service interface="chen.sport.service.ProductService"
                    ref="productService" />
+    <dubbo:service interface="chen.sport.service.SkuService" ref="skuService"/>
 
 
-
-
-    <!--<dubbo:application name="sport-service-product" />
-
-    <dubbo:registry address="192.168.56.201:2181" protocol="zookeeper" />
-
-    <dubbo:protocol port="20880" name="dubbo" host="192.168.56.1" />
-
-    <dubbo:service interface="chen.sport.service.TestTbService"
-                   ref="testTbService" />-->
 
 
 </beans>

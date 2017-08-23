@@ -7,7 +7,7 @@
     <title>babasport-list</title>
     <script type="text/javascript">
         //上架
-        function isShow() {
+        function isShow(flag) {
             //请至少选择一个
             var size = $("input[name='ids']:checked").size();
             if (size == 0) {
@@ -15,11 +15,11 @@
                 return;
             }
             //你确定删除吗
-            if (!confirm("你确定上架吗")) {
+            if (!confirm("你确定上架或下架吗")) {
                 return;
             }
             //提交 Form表单
-            $("#jvForm").attr("action", "/brand/isShow.do");
+            $("#jvForm").attr("action", "isShow.do?isShow="+flag);
             $("#jvForm").attr("method", "post");
             $("#jvForm").submit();
 
@@ -70,7 +70,7 @@
 
                 <tr bgcolor="#ffffff" onmouseover="this.bgColor='#eeeeee'"
                     onmouseout="this.bgColor='#ffffff'">
-                    <td><input type="checkbox" name="ids" value="73"/></td>
+                    <td><input type="checkbox" name="ids" value="${product.id}"/></td>
                     <td>${product.id}
                     </td>
                     <td align="center">${product.name}</td>
@@ -82,11 +82,11 @@
                     <td align="center">${product.isNew==1?"是":"否"}</td>
                     <td align="center">${product.isHot==1?"是":"否"}</td>
                     <td align="center">${product.isCommend==1?"是":"否"}</td>
-                    <td align="center">${product.isShow==1?"已下架":"已上架"}</td>
+                    <td align="center">${product.isShow==1?"已上架":"已下架"}</td>
                     <td align="center">
                         <a href="#" class="pn-opt">查看</a> | <a href="showEdit.do?productId=${product.id}" class="pn-opt">修改</a> | <a
                             href="#" onclick="if(!confirm('您确定删除吗？')) {return false;}"
-                            class="pn-opt">删除</a> | <a href="../sku/list.jsp" class="pn-opt">库存</a>
+                            class="pn-opt">删除</a> | <a href="../sku/list.do?productId=${product.id}" class="pn-opt">库存</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -134,8 +134,8 @@
         <div style="margin-top:15px;"><input class="del-button" type="button" value="删除"
                                              onclick="optDelete();"/><input class="add"
                                                                             type="button" value="上架"
-                                                                            onclick="isShow();"/><input
-                class="del-button" type="button" value="下架" onclick="isHide();"/></div>
+                                                                            onclick="isShow(1);"/><input
+                class="del-button" type="button" value="下架" onclick="isShow(0);"/></div>
     </form>
 </div>
 </body>

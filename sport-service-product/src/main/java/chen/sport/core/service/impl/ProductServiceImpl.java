@@ -9,11 +9,16 @@ import chen.sport.core.pojo.Sku;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.ProductService;
 import com.github.abel533.entity.Example;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private ColorMapper colorMapper;
     @Autowired
     private SkuMapper skuMapper;
+    @Autowired
+    private SolrServer solrServer;
     @Override
     public PageHelper.Page<Product> findByExample(Product product, Integer pageNum, Integer
             pageSize) {
@@ -98,4 +105,47 @@ public class ProductServiceImpl implements ProductService {
             }
         }
     }
+
+    @Override
+    public void update(Product product, String ids) throws IOException, SolrServerException {
+        Example example = new Example(Product.class);
+        ArrayList<Object> list = new ArrayList<>();
+        String[] split = ids.split(",");
+        for (String s : split) {
+            list.add(Long.parseLong(s));
+        }
+        example.createCriteria().andIn("id", list);
+        productMapper.updateByExampleSelective(product, example);
+
+        // 需要保存的信息有：商品id、商品名称、图片地址、售价、品牌id、上架时间（可选）
+
+
+        if (product.getIsShow() == 1) {
+            // 查询ids中的所有商品
+            List<Product> products = productMapper.selectByExample(example);
+            for (Product product1 : products) {
+                SolrInputDocument doc = new SolrInputDocument();
+                doc.addField("id", product1.getId());
+                doc.addField("name_ik", product1.getName());
+                doc.addField("url", product1.getImgUrl().split(",")[0]);
+                doc.addField("brandId", product1.getBrandId());
+
+                Example example1 = new Example(Sku.class);
+
+                example1.createCriteria().andEqualTo("productId", product1.getId());
+                example1.setOrderByClause("price asc");
+                PageHelper.startPage(1,1);
+                List<Sku> skuList = skuMapper.selectByExample(example1);
+                PageHelper.endPage();
+                doc.addField("price", skuList.get(0).getPrice());
+                solrServer.add(doc);
+                solrServer.commit();
+
+            }
+        }
+
+    }
+
+
+
 }

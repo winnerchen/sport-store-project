@@ -4,7 +4,9 @@ import chen.sport.core.pojo.Color;
 import chen.sport.core.pojo.Product;
 import chen.sport.core.tools.PageHelper;
 import com.github.abel533.mapper.Mapper;
+import org.apache.solr.client.solrj.SolrServerException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,5 +40,16 @@ public interface ProductService {
      */
     List<Color> findEnableColors();
 
+    /**
+     * 添加商品
+     * @param product
+     */
     void add(Product product);
+
+    /**
+     * 批量修改商品统一信息
+     * @param product
+     * @param ids
+     */
+    void update(Product product, String ids) throws IOException, SolrServerException;
 }

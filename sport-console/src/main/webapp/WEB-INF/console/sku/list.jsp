@@ -4,6 +4,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>babasport-list</title>
+	<script type="application/javascript">
+		function showUpdateSku(skuId) {
+            $("input[id$='"+skuId+"']").attr("disabled", false);
+        }
+        function doUpdateSku(skuId) {
+            $("input[id$='"+skuId+"']").attr("disabled", true);
+            var param = {
+                "marketPrice" : $("#m" + skuId).val(),
+                "price" : $("#p" + skuId).val(),
+                "stock" : $("#s" + skuId).val(),
+                "upperLimit" : $("#u" + skuId).val(),
+                "deliveFee" : $("#d" + skuId).val(),
+                "id" : skuId
+            };
+            $.post("update.do", param, function(data) {
+                alert(data);
+            });
+
+
+        }
+	</script>
 </head>
 <body>
 <div class="box-positon">
@@ -35,13 +56,13 @@
 				<td>${sku.id}</td>
 				<td align="center">${sku.colorId}</td>
 				<td align="center">${sku.size}</td>
-				<td align="center"><input type="text" id="m52" value="${sku.marketPrice}" disabled="disabled" size="10"/></td>
-				<td align="center"><input type="text" id="p52" value="${sku.price}" disabled="disabled" size="10"/></td>
-				<td align="center"><input type="text" id="i52" value="${sku.stock}" disabled="disabled" size="10"/></td>
-				<td align="center"><input type="text" id="l52" value="${sku.upperLimit}" disabled="disabled" size="10"/></td>
-				<td align="center"><input type="text" id="f52" value="${sku.deliveFee}" disabled="disabled" size="10"/></td>
+				<td align="center"><input type="text" id="m${sku.id}" value="${sku.marketPrice}" disabled="disabled" size="10"/></td>
+				<td align="center"><input type="text" id="p${sku.id}" value="${sku.price}" disabled="disabled" size="10"/></td>
+				<td align="center"><input type="text" id="s${sku.id}" value="${sku.stock}" disabled="disabled" size="10"/></td>
+				<td align="center"><input type="text" id="u${sku.id}" value="${sku.upperLimit}" disabled="disabled" size="10"/></td>
+				<td align="center"><input type="text" id="d${sku.id}" value="${sku.deliveFee}" disabled="disabled" size="10"/></td>
 
-				<td align="center"><a href="javascript:updateSku(52)" class="pn-opt">修改</a> | <a href="javascript:addSku(52)" class="pn-opt">保存</a></td>
+				<td align="center"><a href="javascript:showUpdateSku(${sku.id})" class="pn-opt">修改</a> | <a href="javascript:doUpdateSku(${sku.id})" class="pn-opt">保存</a></td>
 			</tr>
 	</c:forEach>
 	</tbody>
