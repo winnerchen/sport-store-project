@@ -10,3 +10,5 @@ generatorConfig.xml
 .DS_Store
 *.cache
 *.lock
+rebel.xml
+rebel-remote.xml
