@@ -22,4 +22,6 @@ public interface BrandService {
     Brand findById(Long id);
 
     void updateById(Brand brand);
+
+     List<Brand> findAllFromRedis();
 }

@@ -2,6 +2,7 @@ package chen.sport.service;
 
 import chen.sport.core.pojo.Color;
 import chen.sport.core.pojo.Product;
+import chen.sport.core.pojo.SuperPojo;
 import chen.sport.core.tools.PageHelper;
 import com.github.abel533.mapper.Mapper;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -52,4 +53,6 @@ public interface ProductService {
      * @param ids
      */
     void update(Product product, String ids) throws IOException, SolrServerException;
+
+    SuperPojo findSuperPojoById(Long productId);
 }

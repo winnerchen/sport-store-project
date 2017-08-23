@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chen.sport.core.mapper.SkuMapper">
+
+    <!-- 根据商品id查询某商品的库存，并且将颜色名称，通过对颜色表连接查询的方式也带出来 -->
+    <select id="findSKuAndColorByProductId" resultType="SuperPojo">
+        SELECT
+        *
+        FROM
+        bbs_sku,
+        bbs_color
+        WHERE
+        bbs_sku.color_id =
+        bbs_color.id
+        AND bbs_sku.product_id =
+        #{productId};
+    </select>
+
+
+
+</mapper>

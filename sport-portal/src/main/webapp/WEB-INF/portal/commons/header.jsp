@@ -3,12 +3,26 @@
 <script type="text/javascript" src="/js/base-v1.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/jquery-1.6.4.js"></script>
 <script type="text/javascript">
+$(function () {
+    $("#keyword").val("2016新款");
+	$("#keyword").blur(function () {
+        if(!$("#keyword").val()){
+            $("#keyword").val("2016新款");
+        }
+    });
+    $("#keyword").focus(function () {
+        if($("#keyword").val()=="2016新款"){
+            $("#keyword").val("");
+        }
+    });
+})
+
 //搜索
-function searchKeyword(sort){
+function searchKeyword(sort,pageNum){
     if(!sort) {
     	sort="";
     }
-    window.location.href = "/search?keyword=" + $("#keyword").val()+"&sort="+sort;
+    window.location.href = "/search?keyword=" + $("#keyword").val()+"&sort="+sort+"&pageNum="+pageNum+"&pageSize=4";
 }
 </script>
 <!--shortcut start-->
@@ -26,8 +40,8 @@ function searchKeyword(sort){
 				<ul id="shelper" class="hide">
 				</ul>
 				<div class="form">
-					<input type="text" class="text" id="keyword" value="${keyword}">
-					<input type="button" value="搜索" class="button" onclick="searchKeyword()" >
+					<input  type="text" class="text" id="keyword" value="${keyword}">
+					<input type="button" value="搜索" class="button" onclick="searchKeyword('${sort2}',1)" >
 				</div>
 			</div>
 			<div id="hotwords"></div>

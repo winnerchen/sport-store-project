@@ -6,6 +6,7 @@ import chen.sport.core.mapper.SkuMapper;
 import chen.sport.core.pojo.Color;
 import chen.sport.core.pojo.Product;
 import chen.sport.core.pojo.Sku;
+import chen.sport.core.pojo.SuperPojo;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.ProductService;
 import com.github.abel533.entity.Example;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -146,6 +148,20 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public SuperPojo findSuperPojoById(Long productId) {
+        Product product = productMapper.selectByPrimaryKey(productId);
+        Sku sku = new Sku();
+        sku.setProductId(productId);
+
+        List<SuperPojo> skus = skuMapper.findSKuAndColorByProductId(productId);
+
+        SuperPojo superPojo = new SuperPojo();
+        superPojo.setProperty("product", product);
+        superPojo.setProperty("skus", skus);
+
+        return superPojo;
+    }
 
 
 }

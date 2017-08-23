@@ -1,6 +1,7 @@
 package chen.sport.service;
 
 import chen.sport.core.pojo.SuperPojo;
+import chen.sport.core.tools.PageHelper;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface SolrService {
      * @return
      * @throws SolrServerException
      */
-    List<SuperPojo> findProductByKeyWord(String keyword ,String sort)
+    PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword , String sort, Integer pageNum, Integer pageSize,Long brandId, Float pa, Float pb)
             throws SolrServerException;
 
 }

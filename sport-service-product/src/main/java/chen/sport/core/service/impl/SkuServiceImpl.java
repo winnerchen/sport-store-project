@@ -2,6 +2,7 @@ package chen.sport.core.service.impl;
 
 import chen.sport.core.mapper.SkuMapper;
 import chen.sport.core.pojo.Sku;
+import chen.sport.core.pojo.SuperPojo;
 import chen.sport.service.SkuService;
 import com.github.abel533.entity.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,12 @@ public class SkuServiceImpl implements SkuService{
     @Override
     public int update(Sku sku) {
         int i = skuMapper.updateByPrimaryKeySelective(sku);
+
         return i;
+    }
+
+    @Override
+    public List<SuperPojo> findSKuAndColorByProductId(Long productId) {
+        return skuMapper.findSKuAndColorByProductId(productId);
     }
 }

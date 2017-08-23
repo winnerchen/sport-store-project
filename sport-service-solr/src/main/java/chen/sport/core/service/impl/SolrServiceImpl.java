@@ -1,6 +1,7 @@
 package chen.sport.core.service.impl;
 
 import chen.sport.core.pojo.SuperPojo;
+import chen.sport.core.tools.PageHelper;
 import chen.sport.service.SolrService;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -26,11 +27,30 @@ public class SolrServiceImpl implements SolrService{
     @Autowired
     private SolrServer solrServer;
     @Override
-    public List<SuperPojo> findProductByKeyWord(String keyword,String sort)
+    public PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize,Long brandId, Float pa, Float pb)
             throws SolrServerException {
 
         // 设置查询条件
         SolrQuery solrQuery = new SolrQuery("name_ik:" + keyword);
+
+        //设置过滤条件
+        if (brandId != null) {
+            solrQuery.addFilterQuery("brandId:" + brandId);
+        }
+        // 价格
+        if (pa != null && pb != null) {
+            if (pb == -1) {
+                solrQuery.addFilterQuery("price:[" + pa + " TO *]");
+            } else {
+                solrQuery.addFilterQuery("price:[" + pa + " TO " + pb + "]");
+            }
+        }
+
+
+        PageHelper.Page<SuperPojo> page = new PageHelper.Page<>(pageNum, pageSize);
+
+        solrQuery.setStart(page.getStartRow());
+        solrQuery.setRows(page.getPageSize());
 
         // 设置排序
         // solrQuery.setSort("price", ORDER.asc);
@@ -58,6 +78,8 @@ public class SolrServiceImpl implements SolrService{
 
         // 获得总数量
         long numFound = results.getNumFound();
+
+        page.setTotal(numFound);
 
         // 将结果集中的信息封装到商品对象中
         // 注意：由于原商品对象中并没有价格属性，而价格属性本应该是在商品对象的子对象库存对象中，
@@ -91,13 +113,14 @@ public class SolrServiceImpl implements SolrService{
             superProduct.setProperty("price", price);
 
             // 品牌id
-            String brandId = (String) solrDocument.get("brandId");
-            superProduct.setProperty("brandId", brandId);
+            String brandId2 = (String) solrDocument.get("brandId");
+            superProduct.setProperty("brandId", brandId2);
 
             // 将万能商品对象添加到集合中
             superProducts.add(superProduct);
         }
-        return superProducts;
+        page.setResult(superProducts);
+        return page;
     }
 
 }

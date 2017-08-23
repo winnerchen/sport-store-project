@@ -49,6 +49,7 @@
                     <password>admin</password>
                     <update>true</update>-->
                     <uriEncoding>UTF-8</uriEncoding>
+
                 </configuration>
             </plugin>
         </plugins>

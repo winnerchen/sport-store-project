@@ -11,6 +11,45 @@
     <link type="text/css" rel="stylesheet" href="/css/search.css">
     <script type="text/javascript" src="/js/jquery-1.6.4.js"></script>
 
+    <%--<script>
+        $(function () {
+            alert('${page.pageNum}');
+           if('${page.pageNum}'==1){
+               $(".fp-prev").removeAttr('href');
+            }else{
+               $(".fp-prev").attr('disable', 'false');
+           }
+            if('${page.pageNum}'=='${page.pages}'){
+                $(".fp-prev").removeAttr('href');
+                $(".fp-prev").attr('disable', 'true');
+            }
+        });
+
+    </script>--%>
+    <script type="application/javascript">
+        function fqBrand(brandId)
+        {
+            window.location='/search?keyword=${keyword}&brandId='+brandId+'&sort=${sort2}&pa=${pa}&pb=${pb}'+'&pageNum='+${page.pageNum}+'&pageSize=4';
+        }
+        //过滤价格 a起点 b终点
+        function fqPrice(a,b)
+        {
+            window.location='/search?keyword=${keyword}&pa='+a+'&pb='+b+'&sort=${sort2}&brandId=${brandId}'+'&pageNum='+${page.pageNum}+'&pageSize=4';
+        }
+        function removeCondition(target) {
+            //console.log($(target).children("b").html());
+            if ($(target).children("b").html()=="品牌："){
+                fqBrand('');
+            }
+            if ($(target).children("b").html()=="价格："){
+                fqPrice('','');
+            }
+        }
+
+        
+
+
+    </script>
 </head>
 <body>
 <!-- header start -->
@@ -63,13 +102,13 @@
                 </div>
                 <i class="crumbs-arrow">&gt;</i>
                 <div class="crumbs-nav-item">
-                    <strong class="search-key">"瑜伽服"</strong>
+                    <strong class="search-key">"${keyword}"</strong>
                 </div>
                 <c:if test="${fn:length(map) != 0 }">
                     <div class="sl-b-selected J_brandSelected">
                         <span class="crumbs-arrow">已选条件：</span>
-                        <c:forEach items="${map }" var="m">
-                            <a title="依琦莲（yiqilian）" href="javascript:;" class="crumb-select-item">
+                        <c:forEach items="${map}" var="m">
+                            <a title="${m.value}" href="javascript:;" class="crumb-select-item" onclick="removeCondition(this)">
                                 <b>${m.key }：</b><em>${m.value }</em><i></i>
                             </a>
                         </c:forEach>
@@ -108,23 +147,23 @@
                         <div class="sl-v-list">
                             <ul class="J_valueList">
                                 <li>
-                                    <a href="javascript:;" onclick="fqPrice('0-99')"><i></i>0-99</a>
+                                    <a href="javascript:;" onclick="fqPrice(0,99)"><i></i>0-99</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" onclick="fqPrice('100-299')"><i></i>100-299</a>
+                                    <a href="javascript:;" onclick="fqPrice(100,299)"><i></i>100-299</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" onclick="fqPrice('300-599')"><i></i>300-599</a>
+                                    <a href="javascript:;" onclick="fqPrice(300,599)"><i></i>300-599</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" onclick="fqPrice('600-999')"><i></i>600-999</a>
+                                    <a href="javascript:;" onclick="fqPrice(600,999)"><i></i>600-999</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" onclick="fqPrice('1000-1599')"><i></i>1000-1599</a>
+                                    <a href="javascript:;" onclick="fqPrice(1000,1599)"><i></i>1000-1599</a>
                                 </li>
                                 <li>
                                     <a href="javascript:;"
-                                       onclick="fqPrice('1600')"><i></i>1600以上</a>
+                                       onclick="fqPrice(1600,-1)"><i></i>1600以上</a>
                                 </li>
                             </ul>
                         </div>
@@ -230,7 +269,8 @@
                                     <div class="f-sort"><a href="javascript:;"
                                                            class="curr">综合排序<i></i></a><a
                                             href="javascript:;" class="">销量<i></i></a><a
-                                            href="javascript:searchKeyword('${sort}');" class="">价格<i></i></a><a
+                                            href="javascript:searchKeyword('${sort}');"
+                                            class="">价格<i></i></a><a
                                             href="javascript:;" class="">评论数<i></i></a><a
                                             href="javascript:;" class="">新品<i></i></a></div>
                                     <div class="f-search">
@@ -241,12 +281,17 @@
                                            href="javascript:;">确定</a>
                                     </div>
                                     <div id="J_topPage" class="f-pager"><span
-                                            class="fp-text"><b>1</b><em>/</em><i>100</i></span><a
-                                            class="fp-prev disabled" href="javascript:;">&lt;</a><a
-                                            class="fp-next" onclick="SEARCH.page(3)"
-                                            href="javascript:;" title="使用方向键右键也可翻到下一页哦！">&gt;</a>
+                                            class="fp-text"><b>${page.pageNum}</b><em>/</em><i>${page.pages
+                                            }</i></span><a
+                                            class="fp-prev"
+                                            onclick="searchKeyword('${sort2}',${page.pageNum-1})"
+                                            href="javascript:;">&lt;</a>
+                                        <a class="fp-next"
+                                           onclick="searchKeyword('${sort2}',${page.pageNum+1})"
+                                           href="javascript:;" title="使用方向键右键也可翻到下一页哦！">&gt;</a>
                                     </div>
-                                    <div class="f-result-sum">共<span id="J_resCount" class="num">5.6万</span>件商品
+                                    <div class="f-result-sum">共<span id="J_resCount"
+                                                                     class="num">${page.total}</span>件商品
                                     </div>
                                     <span class="clr"></span>
                                 </div>
@@ -469,12 +514,12 @@
                             </div>
                             <div id="J_goodsList" class="goods-list-v1 gl-type-1 J-goods-list">
                                 <ul class="gl-warp clearfix" data-tpl="1">
-                                    <c:forEach items="${products}" var="product">
+                                    <c:forEach items="${page.result}" var="product">
                                         <li data-sku="1711416562" class="gl-item">
                                             <div class="gl-i-wrap">
                                                 <div class="p-img">
                                                     <a href="javascript:;"
-                                                       onclick="window.open('/product/detail?id=${product.id}')"
+                                                       onclick="window.open('/product/detail?productId=${product.id}')"
                                                        style="position: relative;">
                                                         <img width="220" height="220"
                                                              class="err-product"
