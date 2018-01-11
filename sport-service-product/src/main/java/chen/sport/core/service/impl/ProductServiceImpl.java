@@ -14,9 +14,14 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -41,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
     private SkuMapper skuMapper;
     @Autowired
     private SolrServer solrServer;
+    @Autowired
+    private JmsTemplate jmsTemplate;
     @Override
     public PageHelper.Page<Product> findByExample(Product product, Integer pageNum, Integer
             pageSize) {
@@ -109,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product product, String ids) throws IOException, SolrServerException {
+    public void update(Product product, final String ids) throws IOException, SolrServerException {
         Example example = new Example(Product.class);
         ArrayList<Object> list = new ArrayList<>();
         String[] split = ids.split(",");
@@ -123,27 +130,13 @@ public class ProductServiceImpl implements ProductService {
 
 
         if (product.getIsShow() == 1) {
-            // 查询ids中的所有商品
-            List<Product> products = productMapper.selectByExample(example);
-            for (Product product1 : products) {
-                SolrInputDocument doc = new SolrInputDocument();
-                doc.addField("id", product1.getId());
-                doc.addField("name_ik", product1.getName());
-                doc.addField("url", product1.getImgUrl().split(",")[0]);
-                doc.addField("brandId", product1.getBrandId());
+            jmsTemplate.send("productIds", new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    return session.createTextMessage(ids);
+                }
+            });
 
-                Example example1 = new Example(Sku.class);
-
-                example1.createCriteria().andEqualTo("productId", product1.getId());
-                example1.setOrderByClause("price asc");
-                PageHelper.startPage(1,1);
-                List<Sku> skuList = skuMapper.selectByExample(example1);
-                PageHelper.endPage();
-                doc.addField("price", skuList.get(0).getPrice());
-                solrServer.add(doc);
-                solrServer.commit();
-
-            }
         }
 
     }

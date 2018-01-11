@@ -1,9 +1,12 @@
 package chen.sport.service;
 
+import chen.sport.core.pojo.Product;
 import chen.sport.core.pojo.SuperPojo;
 import chen.sport.core.tools.PageHelper;
+import com.github.abel533.entity.Example;
 import org.apache.solr.client.solrj.SolrServerException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,5 +25,7 @@ public interface SolrService {
      */
     PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword , String sort, Integer pageNum, Integer pageSize,Long brandId, Float pa, Float pb)
             throws SolrServerException;
+
+    void addProduct(String ids) throws IOException, SolrServerException;
 
 }

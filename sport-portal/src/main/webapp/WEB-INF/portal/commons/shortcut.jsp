@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script>
+	function login() {
+        window.location = "http://localhost:8081/login.aspx?returnUrl=" + window.location;
+    }
+</script>
 <div id="shortcut-2013">
 	<div class="w">
 		<ul class="fl lh">

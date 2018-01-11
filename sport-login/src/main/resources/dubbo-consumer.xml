@@ -21,13 +21,26 @@
    		http://www.springframework.org/schema/task/spring-task.xsd
 		http://code.alibabatech.com/schema/dubbo
 		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!-- 搭建Dubbo的服务消费方 -->
+    <!-- 1、Dubbo消费方提供方名称 -->
+    <dubbo:application name="sport-login"/>
+    <!-- 2、连接zookeeper注册中心 (如果zookeeper是多台机器用，间隔) -->
+    <!-- <dubbo:registry address="192.168.56.101:2181" protocol="zookeeper"
+        /> -->
+    <!-- 不使用注册中心 -->
+    <dubbo:registry address="N/A" check="false"/>
+    <!-- 3、调用接口 -->
+    <dubbo:reference interface="chen.sport.service.SolrService"
+                     id="solrService" url="dubbo://127.0.0.1:20881"/>
+    <dubbo:reference interface="chen.sport.service.BrandService"
+                     id="brandService" url="dubbo://127.0.0.1:20880" />
+    <dubbo:reference interface="chen.sport.service.ProductService"
+                     id="productService" url="dubbo://127.0.0.1:20880" />
 
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="filters" value="stat" />
-    </bean>
+
+
+    <!-- 全局设置超时时间 -->
+    <dubbo:consumer timeout="600000" check="false"/>
+
 
 </beans>

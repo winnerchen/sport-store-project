@@ -43,7 +43,7 @@
                 <version>2.2</version>
                 <configuration>
                     <port>8085</port>
-                    <path>/service-product</path>
+                    <path>/</path>
                     <!--<url>http://67.216.205.207:8080//manager/text</url>
                     <username>admin</username>
                     <password>admin</password>

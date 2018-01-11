@@ -1,17 +1,24 @@
 package chen.sport.core.service.impl;
 
+import chen.sport.core.mapper.ProductMapper;
+import chen.sport.core.mapper.SkuMapper;
+import chen.sport.core.pojo.Product;
+import chen.sport.core.pojo.Sku;
 import chen.sport.core.pojo.SuperPojo;
 import chen.sport.core.tools.PageHelper;
 import chen.sport.service.SolrService;
+import com.github.abel533.entity.Example;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +33,10 @@ import java.util.Map;
 public class SolrServiceImpl implements SolrService{
     @Autowired
     private SolrServer solrServer;
+    @Autowired
+    private ProductMapper productMapper;
+    @Autowired
+    private SkuMapper skuMapper;
     @Override
     public PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize,Long brandId, Float pa, Float pb)
             throws SolrServerException {
@@ -121,6 +132,40 @@ public class SolrServiceImpl implements SolrService{
         }
         page.setResult(superProducts);
         return page;
+    }
+
+    public void addProduct(String ids) throws IOException, SolrServerException {
+        Example example = new Example(Product.class);
+
+        // 将ids的字符串转成list集合
+        List arrayList = new ArrayList<Object>();
+        String[] split = ids.split(",");
+        for (String string : split) {
+            arrayList.add(string);
+        }
+        // 设置批量修改的id条件
+        example.createCriteria().andIn("id", arrayList);
+        // 查询ids中的所有商品
+        List<Product> products = productMapper.selectByExample(example);
+        for (Product product1 : products) {
+            SolrInputDocument doc = new SolrInputDocument();
+            doc.addField("id", product1.getId());
+            doc.addField("name_ik", product1.getName());
+            doc.addField("url", product1.getImgUrl().split(",")[0]);
+            doc.addField("brandId", product1.getBrandId());
+
+            Example example1 = new Example(Sku.class);
+
+            example1.createCriteria().andEqualTo("productId", product1.getId());
+            example1.setOrderByClause("price asc");
+            PageHelper.startPage(1,1);
+            List<Sku> skuList = skuMapper.selectByExample(example1);
+            PageHelper.endPage();
+            doc.addField("price", skuList.get(0).getPrice());
+            solrServer.add(doc);
+            solrServer.commit();
+
+        }
     }
 
 }

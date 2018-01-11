@@ -42,15 +42,9 @@ public class CenterController {
         System.out.println("frame");
         return "/frame/" + pageName;
     }
-
-
-
-
     // 种类
     @RequestMapping(value = "console/type/{pageName}.do")
     public String consoleTypeShow(@PathVariable(value = "pageName") String pageName) {
         return "/type/" + pageName;
     }
-
-
 }

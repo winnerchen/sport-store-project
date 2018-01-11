@@ -22,7 +22,7 @@ function searchKeyword(sort,pageNum){
     if(!sort) {
     	sort="";
     }
-    window.location.href = "/search?keyword=" + $("#keyword").val()+"&sort="+sort+"&pageNum="+pageNum+"&pageSize=4";
+    window.location.href = "/search?keyword=" + $("#keyword").val()+"&sort="+sort+"&pageNum="+pageNum+"&pageSize=8";
 }
 </script>
 <!--shortcut start-->

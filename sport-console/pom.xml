@@ -50,6 +50,7 @@
                     <password>admin</password>
                     <update>true</update>-->
                     <uriEncoding>UTF-8</uriEncoding>
+                    <ajpPort>8009</ajpPort>
                 </configuration>
             </plugin>
             <plugin>

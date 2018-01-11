@@ -29,26 +29,22 @@
     <script type="application/javascript">
         function fqBrand(brandId)
         {
-            window.location='/search?keyword=${keyword}&brandId='+brandId+'&sort=${sort2}&pa=${pa}&pb=${pb}'+'&pageNum='+${page.pageNum}+'&pageSize=4';
+            window.location='/search?keyword=${keyword}&brandId='+brandId+'&sort=${sort2}&pa=${pa}&pb=${pb}'+'&pageNum='+${page.pageNum}+'&pageSize=8';
         }
         //过滤价格 a起点 b终点
         function fqPrice(a,b)
         {
-            window.location='/search?keyword=${keyword}&pa='+a+'&pb='+b+'&sort=${sort2}&brandId=${brandId}'+'&pageNum='+${page.pageNum}+'&pageSize=4';
+            window.location='/search?keyword=${keyword}&pa='+a+'&pb='+b+'&sort=${sort2}&brandId=${brandId}'+'&pageNum='+${page.pageNum}+'&pageSize=8';
         }
         function removeCondition(target) {
             //console.log($(target).children("b").html());
-            if ($(target).children("b").html()=="品牌："){
+            if ($(target).children("b").html()=="品牌/："){
                 fqBrand('');
             }
             if ($(target).children("b").html()=="价格："){
                 fqPrice('','');
             }
         }
-
-        
-
-
     </script>
 </head>
 <body>
@@ -269,8 +265,8 @@
                                     <div class="f-sort"><a href="javascript:;"
                                                            class="curr">综合排序<i></i></a><a
                                             href="javascript:;" class="">销量<i></i></a><a
-                                            href="javascript:searchKeyword('${sort}');"
-                                            class="">价格<i></i></a><a
+                                            href="javascript:searchKeyword('${sort}',1);"
+                                             class="">价格<i></i></a><a
                                             href="javascript:;" class="">评论数<i></i></a><a
                                             href="javascript:;" class="">新品<i></i></a></div>
                                     <div class="f-search">
